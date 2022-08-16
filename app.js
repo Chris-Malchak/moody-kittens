@@ -14,7 +14,7 @@ function addKitten(event) {
     id: generateId(),
     name: form.name.value,
     affection: 5,
-    mood: 'Tolerant',
+    mood: setKittenMood(),
 
   }
   
@@ -56,17 +56,16 @@ function drawKittens() {
     kittensTemplate += `
     <div class="card">
         <h3 class="card">${kitten.name}</h3>
-        <div class="d-flex space-between">
-          <p>
-            <i class=""></i>
+        <div class="dkittenId space-between">
+          
             <span>Mood: ${kitten.mood}</span>
-          </p>
-          </div>
           
-          <button  class="give-pet-btn" id="givePetBtn" onclick="pet()">Pet me!</button>
+        </div>
           
-          <button  class="give-nip-btn" id="giveNipBtn" onclick="catnip()">Nip, mortal!</button>
-      </div>
+          <button  class="give-pet-btn" id="givePetBtn" onclick="pet(${kitten.id})">Pet me!</button>
+          
+          <button  class="give-nip-btn" id="giveNipBtn" onclick="catnip(${kitten.id})">Nip, mortal!</button>
+    </div>
         
       `
     })
@@ -80,7 +79,10 @@ function drawKittens() {
  * @return {Kitten}
  */
 function findKittenById(kittenId) {
-  let index = kittens.findIndex(kitten => kitten.id === kittenId)
+  let index = kittens.findIndex(kitten => kitten.id === kittenId);
+  if (index == -1) {
+    console.log('invalid id');
+  }
 
 }
 
@@ -93,16 +95,17 @@ function findKittenById(kittenId) {
  * otherwise decrease the affection
  * @param {string} kittenId 
  */
-function pet(kitten) {
-  findKittenById()
-  if (Math.floor(Math.random()) > .5) {
-    kitten.affection++
-  } else {
-    kitten.affection--
-  }
+function pet(kittenId) {
+  findKittenById(kittenId)
   
+  if (Math.random() > .5) {
+    kittens.kitten.affection++
+  } else {
+    kittens.kitten.affection--
+  }
+  saveKittens()
 
-  console.log(kitten.affection);
+ 
 }
 
 /**
@@ -111,9 +114,9 @@ function pet(kitten) {
  * Set the kitten's affection to 5
  * @param {string} kittenId
  */
-function catnip(kitten) {
+function catnip(kittenId) {
   // add affection reset
-  
+  findKittenById(kittenId)
    console.log(5);
 setKittenMood()
 }
@@ -137,7 +140,9 @@ function setKittenMood(kitten) {
   if (kitten.affection > 6) {
     kitten.mood = 'Happy'
   }
-
+  kittens.push(kitten.mood)
+  saveKittens()
+  
 }
 
 /**
@@ -145,7 +150,7 @@ function setKittenMood(kitten) {
  * remember to save this change
  */
 function clearKittens(){
-  findKittenById()
+  
   
   kittens.splice(0, kittens.length)
   saveKittens()
