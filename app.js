@@ -7,6 +7,21 @@ let kittens = []
  * Then reset the form
  */
 function addKitten(event) {
+  event.preventDefault()
+  let form = event.target
+
+  let kitten = {
+    id: generateId(),
+    name: form.name.value,
+    affection: 5,
+    mood: 'Tolerant',
+
+  }
+  
+  kittens.push(kitten)
+  saveKittens()
+  toggleAddKittenBtn()
+  form.reset()
 }
 
 /**
@@ -14,6 +29,8 @@ function addKitten(event) {
  * Saves the string to localstorage at the key kittens 
  */
 function saveKittens() {
+  window.localStorage.setItem("kittens", JSON.stringify(kittens))
+  drawKittens()
 }
 
 /**
@@ -22,21 +39,49 @@ function saveKittens() {
  * the kittens array to the retrieved array
  */
 function loadKittens() {
+  let storedKittens = JSON.parse(window.localStorage.getItem("kittens"))
+  if (storedKittens) {
+    kittens = storedKittens
+    
+  }
 }
 
 /**
  * Draw all of the kittens to the kittens element
  */
 function drawKittens() {
+  let kittenListElement = document.getElementById("kittenList")
+  let kittensTemplate = ""
+  kittens.forEach(kitten => {
+    kittensTemplate += `
+    <div class="card">
+        <h3 class="card">${kitten.name}</h3>
+        <div class="d-flex space-between">
+          <p>
+            <i class=""></i>
+            <span>Mood: ${kitten.mood}</span>
+          </p>
+          </div>
+          
+          <button  class="give-pet-btn" id="givePetBtn" onclick="pet()">Pet me!</button>
+          
+          <button  class="give-nip-btn" id="giveNipBtn" onclick="catnip()">Nip, mortal!</button>
+      </div>
+        
+      `
+    })
+    kittenListElement.innerHTML = kittensTemplate
 }
 
 
 /**
  * Find the kitten in the array by its id
- * @param {string} id 
+ * @param {string} kittenId 
  * @return {Kitten}
  */
-function findKittenById(id) {
+function findKittenById(kittenId) {
+  let index = kittens.findIndex(kitten => kitten.id === kittenId)
+
 }
 
 
@@ -46,25 +91,53 @@ function findKittenById(id) {
  * if the number is greater than .5 
  * increase the kittens affection
  * otherwise decrease the affection
- * @param {string} id 
+ * @param {string} kittenId 
  */
-function pet(id) {
+function pet(kitten) {
+  findKittenById()
+  if (Math.floor(Math.random()) > .5) {
+    kitten.affection++
+  } else {
+    kitten.affection--
+  }
+  
+
+  console.log(kitten.affection);
 }
 
 /**
  * Find the kitten in the array of kittens
  * Set the kitten's mood to tolerant
  * Set the kitten's affection to 5
- * @param {string} id
+ * @param {string} kittenId
  */
-function catnip(id) {
+function catnip(kitten) {
+  // add affection reset
+  
+   console.log(5);
+setKittenMood()
 }
 
 /**
  * Sets the kittens mood based on its affection
- * @param {Kitten} kitten 
+ * @param {Kitten} kitten
  */
 function setKittenMood(kitten) {
+  findKittenById(kitten)
+
+  if (kitten.affection <= 0) {
+    kitten.mood = "Gone"
+  }
+  if (kitten.affection > 0 + kitten.affection <= 3) {
+    kitten.mood = "Angry"
+  }
+  if (kitten.affection > 3 + kitten.affection <=6) {
+    kitten.mood = 'Tolerant'
+  }
+  if (kitten.affection > 6) {
+    kitten.mood = 'Happy'
+  }
+
 }
 
 /**
@@ -72,15 +145,43 @@ function setKittenMood(kitten) {
  * remember to save this change
  */
 function clearKittens(){
+  findKittenById()
+  
+  kittens.splice(0, kittens.length)
+  saveKittens()
 }
+
 
 /**
  * Removes the welcome content and should probably draw the 
  * list of kittens to the page. Good Luck
  */
 function getStarted() {
-  document.getElementById("welcome").remove();
+  
   console.log('Good Luck, Take it away')
+  
+  toggleWelcome()
+  toggleKittenList()
+  toggleAdoptBtn()
+  }
+  
+  drawKittens()
+
+
+function toggleWelcome() {
+  document.getElementById('welcome').classList.toggle('hidden')
+}
+
+function toggleKittenList() {
+  document.getElementById("kittenList").classList.toggle('hidden')
+}
+
+function toggleAddKittenBtn() {
+  document.getElementById('addKittenBtn').classList.toggle('hidden')
+}
+
+function toggleAdoptBtn() {
+  document.getElementById('adoptBtn').classList.toggle('hidden')
 }
 
 
@@ -102,3 +203,4 @@ function generateId() {
 }
 
 loadKittens();
+drawKittens()

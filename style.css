@@ -275,3 +275,19 @@ button.btn-special:hover{
 .hidden{
   display: none !important;
 }
+
+.name-field{
+  color: #1b1b1b;
+}
+
+.button-cancel{
+  align-items: center;
+}
+
+.kitten-list {
+  padding: 2em;
+}
+
+.adopt-btn {
+  padding: 2em;
+}

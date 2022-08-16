@@ -14,32 +14,51 @@
 <body>
   <header class="bg-dark d-flex align-items-center p-1 space-between">
     <img src="moody-logo.png" height="60" alt="Moody Kittens">
-    <form class="" onsubmit="addKitten(event)">
-      <div class="d-flex">
-        <input placeholder="Name" type="text" name="name" />
+    <form id="addKittenBtn" class="add-kitten-btn hidden" onsubmit="addKitten(event)">
+      <div id="" class="d-flex">
+        <input placeholder="Name your new Overlord" type="text" name="name" />
         <button class="btn-special" type="submit">
           /ᐠ｡ꞈ｡ᐟ\
         </button>
       </div>
     </form>
   </header>
+
   <main class="container">
-    <div id="welcome" class="d-flex justify-content-center">
+    <div id="welcome" class="d-flex justify-content-center welcome">
       <div class="card p-2 text-center w-50">
         <img src="moody-logo.png" height="250" alt="Moody Kittens">
         <div class="mt-2">
-          <b class="text-center">Hello Student</b>
-          <p>This is your starter template only feel free to modify the look as you tackle the challenges that we have laid out.</p>
-          <small>Good Luck and Have Fun!</small>
+          <b class="text-center">Welcome!</b>
+          <p>Do you have what it takes to serve your feline overlords?</p>
+          <small>Enter... if you dare.</small>
           <br>
-          <button onclick="getStarted()">Get Started</button>
+          <button onclick="getStarted()">I dare!</button>
         </div>
       </div>
     </div>
-    <div class="p-2">
-      <div id="kittens" class="d-flex align-items-center flex-wrap">
-      </div>
+    
+    <div class="d-flex justify-content-center">
+      <button onclick="toggleAddKittenBtn()" class="d-flex adopt-btn hidden" id="adoptBtn">I wish to serve---<b> MORE</b></button>
+    </div>
+    
+    
+    <div class="d-flex justify-content-center kitten-list">
+      <div id="kittenList" class="card text-center w-200 hidden">
+        
+       </div>
+       
+       
+    </div>
+    
+    
+    <button id="clearKittensBtn" onclick="clearKittens('${kitten.id}')">I'm in over my head...</button>
+  </div>
+  
+    
+    
   </main>
+
   <footer class="card bg-dark text-light p-2 d-flex align-items-center justify-content-center">
     <small>Created with <span style="color: var(--primary)">&hearts;</span> by CodeWorks</small>
   </footer>
