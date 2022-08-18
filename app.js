@@ -14,7 +14,7 @@ function addKitten(event) {
     id: generateId(),
     name: form.name.value,
     affection: 5,
-    mood: setKittenMood(),
+    mood: 'Tolerant', //add with setKittenMood(),
 
   }
   
@@ -54,13 +54,13 @@ function drawKittens() {
   let kittensTemplate = ""
   kittens.forEach(kitten => {
     kittensTemplate += `
-    <div class="card">
-        <h3 class="card">${kitten.name}</h3>
-        <div class="dkittenId space-between">
-          
-            <span>Mood: ${kitten.mood}</span>
-          
+    <div id="kitten" class="card kitten">
+        <h3 class="card kitten-name">${kitten.name}</h3>
+        
+        <div class="space-between">
+          <span>Mood: ${kitten.mood}</span>
         </div>
+          
           
           <button  class="give-pet-btn" id="givePetBtn" onclick="pet(${kitten.id})">Pet me!</button>
           
@@ -79,10 +79,8 @@ function drawKittens() {
  * @return {Kitten}
  */
 function findKittenById(kittenId) {
-  let index = kittens.findIndex(kitten => kitten.id === kittenId);
-  if (index == -1) {
-    console.log('invalid id');
-  }
+  kittens.find(kitten => kitten.id === kittenId);
+  
 
 }
 
@@ -103,8 +101,8 @@ function pet(kittenId) {
   } else {
     kittens.kitten.affection--
   }
-  saveKittens()
-
+  setKittenMood()
+  
  
 }
 
@@ -130,15 +128,25 @@ function setKittenMood(kitten) {
 
   if (kitten.affection <= 0) {
     kitten.mood = "Gone"
+    document.getElementById('kitten').classList.add('kitten.gone')
+    document.getElementById('kitten').classList.remove('kitten', 'kitten.angry', 'kitten.tolerant', 'kitten.happy')
+    document.getElementById('givePetBtn').classList.add('hidden')
+    document.getElementById('giveNipBtn').classList.add('hidden')
   }
   if (kitten.affection > 0 + kitten.affection <= 3) {
     kitten.mood = "Angry"
+    document.getElementById('kitten').classList.add('kitten.angry')
+    document.getElementById('kitten').classList.remove('kitten', 'kitten.gone', 'kitten.tolerant', 'kitten.happy')
   }
   if (kitten.affection > 3 + kitten.affection <=6) {
     kitten.mood = 'Tolerant'
+    document.getElementById('kitten').classList.add('kitten.tolerant')
+    document.getElementById('kitten').classList.remove('kitten', 'kitten.angry', 'kitten.gone', 'kitten.happy')
   }
   if (kitten.affection > 6) {
     kitten.mood = 'Happy'
+    document.getElementById('kitten').classList.add('kitten.happy')
+    document.getElementById('kitten').classList.remove('kitten', 'kitten.angry', 'kitten.tolerant', 'kitten.gone')
   }
   kittens.push(kitten.mood)
   saveKittens()
